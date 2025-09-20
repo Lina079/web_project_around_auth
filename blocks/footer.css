@@ -1,0 +1,31 @@
+.footer{
+  max-width: 880px;
+  width: 880px;
+  margin: 67px auto 60px;
+}
+
+.footer__firma{
+  max-width: 318px;
+  justify-content: left;
+  width: 318px;
+  font-family: "inter", Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  color: #545454;
+  line-height: 21.78px;
+}
+
+@media screen and (max-width: 880px){
+.footer{
+  max-width: 282px;
+  width: 282px;
+  margin: 50px auto 36px
+}
+
+.footer__firma {
+  max-width: 282px;
+  width: 282px;
+  font-size: 14px;
+}
+
+}

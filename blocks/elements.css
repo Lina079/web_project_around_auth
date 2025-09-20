@@ -1,0 +1,148 @@
+.elements{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-row-gap: 17px;
+  grid-column-gap: 21px;
+  max-width: 880px;
+  width: fit-content;
+  margin: auto;
+  padding-top: 50px;
+  justify-content: center;
+}
+
+.element__container {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  align-items: center;
+  padding: 0%;
+  margin: 0%;
+  max-width: 282px;
+  width: 282px;
+  max-height: 361px;
+  height: 361px;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.element__container-photo{
+  width: 100%;
+  height: 282px;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 3%;
+}
+.element__photo{
+  width: 100%;
+  height: 282px;
+  object-fit: cover;
+  margin: 0px;
+  padding: 0%;
+  border-radius: 10px 10px 0 0;
+}
+
+.element__container-info{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 246px;
+  width: 100%;
+  max-height: 23px;
+  height: 23px;
+  margin: 25px 15px 31px 21px;
+}
+
+.element__container-name-place{
+  display: block;
+  font-family: "inter", Arial, Helvetica, sans-serif;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29.05px;
+  color:black;
+  align-self: start;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  width: 100%;
+  text-align: left;
+  margin: 0%;
+}
+
+.element__container-heart{
+  display: flex;
+  flex-direction: row;
+  align-self: flex-end;
+  align-self: center;
+  margin-top: 25px;
+
+  max-width: 21px;
+  width: 21px;
+  max-height: 19px;
+  height: 19px;
+
+}
+
+  .card__like-button {
+  all: unset;
+  cursor: pointer;
+  background-image: url('/images/heart-vector.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-right: 10px;
+  width: 21px;
+  height: 21px;
+  background-position: center;
+}
+
+.card__like-button_is-active {
+  background-image: url('/images/black-heart.png');
+}
+
+.element__trash-icon {
+  all: unset;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  z-index: 10;
+  cursor: pointer;
+  background-image: url(/images/can_trash_icon.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.element__trash-icon:hover {
+  opacity: 0.8;
+}
+
+
+@media screen and (max-width: 880px) {
+  .elements {
+    grid-template-columns: 1fr;
+    margin: auto;
+    padding-top: 36px;
+    max-width: 282px;
+    width: 282px;
+  }
+
+  .element__container {
+    max-width: 282px;
+    width: 282px;
+    max-height: 361px;
+    height: 361px;
+    margin: auto;
+  }
+
+  .element__container-photo{
+    max-width: 282px;
+    width: 282px;
+  }
+}
+
+
+
