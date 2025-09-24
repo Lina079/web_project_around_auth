@@ -1,5 +1,7 @@
+
 import {CurrentUserContext}  from '../../contexts/CurrentUserContext';
 import  { useState, useContext} from 'react';
+
 import Card from '../Card/Card';
 import NewCard from './components/NewCard/NewCard';
 import Popup from '../Popup/Popup';
@@ -101,3 +103,5 @@ import ConfirmDelete from './components/ConfirmDelete/ConfirmDelete';
       </main>
   );
 }
+
+
