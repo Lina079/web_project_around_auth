@@ -3,15 +3,17 @@ import { Link } from "react-router-dom";
 
 export default function Register({ onRegister }) {
   const [form, setForm] = useState({ email: '', password: '' });
+  const [touched, setTouched] = useState({ email: false, password:false });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const pwPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+  const isPwValid =(v) => pwPattern.test(String(v));
 
   const canSubmit =
    form.email.trim().length > 3 &&
    form.email.includes("@") &&
-   pwPattern.test(form.password) &&
+   isPwValid(form.password) &&
    !loading;
 
   function handleChange(e) {
@@ -19,8 +21,14 @@ export default function Register({ onRegister }) {
     setForm((prev) => ({ ...prev, [name]: value }));
   }
 
+  function handleBlur(e) {
+    const { name } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true}));
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!canSubmit) return;
     setLoading(true);
     setError('');
     try {
@@ -31,6 +39,8 @@ export default function Register({ onRegister }) {
       setLoading(false);
     }
   }
+
+  const pwInvalid = touched.password && !isPwValid(form.password);
 
   return (
     <section className="auth">
@@ -44,6 +54,7 @@ export default function Register({ onRegister }) {
             name="email"
             value={form.email}
             onChange={handleChange}
+            onBlur={handleBlur}
             required
             autoComplete="email"
           />
@@ -54,15 +65,23 @@ export default function Register({ onRegister }) {
           <input
             type="password"
             name="password"
-            placeholder="6 caracteres mínimo, letras y números.)"
+            placeholder="6 caracteres mínimo, letras y números."
             value={form.password}
             onChange={handleChange}
+            onBlur={handleBlur}
             required
             minLength={6}
-            pattern="/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/"
+            pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"
             title="Mínimo 6 caracteres, debe incluir al menos una letra y un número."
             autoComplete="new-password"
+            aria-invalid={pwInvalid}
+            aria-describedby="pw-help"
           />
+          {pwInvalid && (
+            <p id="pw-help" className="auth__error" role="alert">
+              Contraseña inválida: debe ser alfanumérica y contener al menos 6 caracteres.
+            </p>
+          )}
         </label>
 
         {error && <p className="auth__error">{error}</p>}
