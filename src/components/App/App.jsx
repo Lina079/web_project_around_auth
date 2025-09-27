@@ -11,6 +11,7 @@ import Register from '../../pages/Register';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 import api from '../../utils/api';
 import { register as registerUser, login as loginUser, checkToken, token as authToken } from '../../utils/auth.js';
+import InfoTooltip from '../InfoTooltip/InfoTooltip';
 
 
 import './App.css';
@@ -24,28 +25,31 @@ function ProtectedRoute({ isLoggedIn, children }) {
 export default function App() {
   const navigate = useNavigate();
 
+
  // Estado de la app
   const [currentUser, setCurrentUser] = useState({});
   const [authEmail, setAuthEmail] = useState('');
   const [cards, setCards] = useState([]);
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
+  const [ tooltip, setTooltip ] = useState({ open: false, ok: false, message: '' });
 
   // Validar token al cargar la app
   useEffect(() => {
-    const jwt = authToken.get();
-    if (!jwt) return;
+    const token = localStorage.getItem('jwt');
+    if (!token) return;
 
-    checkToken(jwt)
+    checkToken(token)
       .then(({ data }) => {
         setIsLoggedIn(true);
         setAuthEmail(data.email);
         setCurrentUser((prev) => ({ ...prev, email: data.email }));
-        navigate('/');
+        navigate('/', { replace: true });
       })
-      .cath(() => {
-        authToken.clear();
+      .catch(() => {
+        localStorage.removeItem('jwt');
+        setIsLoggedIn(false);
       });
-  }, [navigate]);
+  }, []);
 
   // Cargar datos iniciales SOLO si hay sesión iniciada
 
@@ -64,19 +68,26 @@ export default function App() {
 
   //Handlers de autenticación
   async function handleRegister({ email, password }) {
-    await registerUser({ email, password })
-    navigate('/signin');
+    try {
+      await registerUser({ email, password });
+      setTooltip({ open: true, ok: true, message: '' });
+    } catch (error) {
+      setTooltip({
+        open: true,
+        ok: false,
+        message: err?.message || 'No se pudo registrar el usuario',
+      });
+    }
   }
-
   async function handleLogin({ email, password }) {
-    const { token } = await loginUser({ email, password });
+    const { token} = await loginUser({ email, password });
     authToken.set(token);
     setIsLoggedIn(true);
 
     const { data } = await checkToken(token);
     setAuthEmail(data.email);
     setCurrentUser((prev) => ({ ...prev, email: data.email }));
-    navigate('/');
+    navigate('/', { replace: true });
   }
 
   function handleLogout() {
@@ -150,23 +161,32 @@ export default function App() {
 
   return (
     <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
+      <div className="page">
+        {/* Header global para todas las páginas */}
+        <Header
+         isLoggedIn={isLoggedIn}
+         email={authEmail}
+         onLogout={handleLogout}
+        />
+      </div>
+
+
       <Routes>
         {/* Rutas públicas */}
         <Route
           path="/signin"
-          element={<Login onLogin={(c) => onLogin(c) } />}
+          element={<Login onLogin={handleLogin} />}
         />
         <Route
           path="/signup"
-          element={<Register onRegister={(c) => onRegister(c)} />}
+          element={<Register onRegister={handleRegister} />}
         />
         {/* Rutas protegidas */}
         <Route
           path="/"
           element={
             <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <div className="page">
-                  <Header email={authEmail} onLogout={handleLogout} />
+              <>
                 <main className="page__content">
                   <Main
                     cards={cards}
@@ -177,7 +197,7 @@ export default function App() {
                     onCardDelete={handleCardDelete} />
                 </main>
                 <Footer />
-              </div>
+                </>
             </ProtectedRoute>
           }
         />
@@ -187,9 +207,20 @@ export default function App() {
           element={<Navigate to={isLoggedIn ? "/" : "/signin"} replace />}
         />
       </Routes>
+      <InfoTooltip
+        isOpen={tooltip.open}
+        ok={tooltip.ok}
+        message={tooltip.message}
+        onClose={() => {
+         setTooltip({ open: false, ok: false, message: '' });
+          if (wasOk) navigate('/signin', { replace: true });
+        }}
+      />
     </CurrentUserContext.Provider>
   );
 }
+
+
 
 
 
