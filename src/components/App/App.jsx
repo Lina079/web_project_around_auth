@@ -35,7 +35,7 @@ export default function App() {
 
   // Validar token al cargar la app
   useEffect(() => {
-    const token = localStorage.getItem('jwt');
+    const token = authToken.get();
     if (!token) return;
 
     checkToken(token)
@@ -46,7 +46,7 @@ export default function App() {
         navigate('/', { replace: true });
       })
       .catch(() => {
-        localStorage.removeItem('jwt');
+        authToken.clear();
         setIsLoggedIn(false);
       });
   }, []);
@@ -75,11 +75,12 @@ export default function App() {
       setTooltip({
         open: true,
         ok: false,
-        message: err?.message || 'No se pudo registrar el usuario',
+        message: error?.message || 'No se pudo registrar el usuario',
       });
     }
   }
   async function handleLogin({ email, password }) {
+    try {
     const { token} = await loginUser({ email, password });
     authToken.set(token);
     setIsLoggedIn(true);
@@ -88,7 +89,14 @@ export default function App() {
     setAuthEmail(data.email);
     setCurrentUser((prev) => ({ ...prev, email: data.email }));
     navigate('/', { replace: true });
+  } catch (error) {
+    setTooltip({
+      open: true,
+      ok: false,
+      message: error?.message || 'No se pudo iniciar sesión.',
+    });
   }
+}
 
   function handleLogout() {
     authToken.clear();
@@ -212,6 +220,7 @@ export default function App() {
         ok={tooltip.ok}
         message={tooltip.message}
         onClose={() => {
+         const wasOk = tooltip.ok;
          setTooltip({ open: false, ok: false, message: '' });
           if (wasOk) navigate('/signin', { replace: true });
         }}
@@ -219,8 +228,5 @@ export default function App() {
     </CurrentUserContext.Provider>
   );
 }
-
-
-
 
 
