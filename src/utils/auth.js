@@ -63,3 +63,4 @@ export const token = {
   set: (t) => localStorage.setItem('jwt', t),
   clear: () => localStorage.removeItem('jwt'),
 };
+

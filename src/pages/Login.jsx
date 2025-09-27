@@ -6,6 +6,14 @@ export default function Login({ onLogin }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const pwPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+
+  const canSubmit =
+   form.email.trim().length > 3 &&
+   form.email.includes("@") &&
+   pwPattern.test(form.password) &&
+   !loading;
+
   function handleChange(e) {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -13,6 +21,7 @@ export default function Login({ onLogin }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!canSubmit) return;
     setLoading(true);
     setError('');
     try {
@@ -34,6 +43,7 @@ export default function Login({ onLogin }) {
           <input
             type="email"
             name="email"
+            placeholder="Email"
             value={form.email}
             onChange={handleChange}
             required
@@ -46,8 +56,11 @@ export default function Login({ onLogin }) {
           <input
             type="password"
             name="password"
+            placeholder="6 caracteres mín. letras y números."
             value={form.password}
             onChange={handleChange}
+            pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"
+            title="Mín. 6 caracteres, debe incluir al menos una letra y un número."
             required
               minLength={6}
             autoComplete="current-password"
@@ -59,7 +72,7 @@ export default function Login({ onLogin }) {
         <button
           className="auth__submit"
           type="submit"
-          disabled={loading || !form.email || !form.password}
+          disabled={!canSubmit}
           >
           {loading ? 'Ingresando...' : 'Iniciar sesión'}
         </button>

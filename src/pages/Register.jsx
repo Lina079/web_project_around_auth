@@ -6,6 +6,14 @@ export default function Register({ onRegister }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const pwPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+
+  const canSubmit =
+   form.email.trim().length > 3 &&
+   form.email.includes("@") &&
+   pwPattern.test(form.password) &&
+   !loading;
+
   function handleChange(e) {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -46,10 +54,13 @@ export default function Register({ onRegister }) {
           <input
             type="password"
             name="password"
+            placeholder="6 caracteres mínimo, letras y números.)"
             value={form.password}
             onChange={handleChange}
             required
             minLength={6}
+            pattern="/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/"
+            title="Mínimo 6 caracteres, debe incluir al menos una letra y un número."
             autoComplete="new-password"
           />
         </label>
@@ -59,7 +70,7 @@ export default function Register({ onRegister }) {
         <button
           className="auth__submit"
           type="submit"
-          disabled={loading || !form.email || !form.password}
+          disabled={!canSubmit}
         >
           {loading ? 'Creando...' : 'Registrarme'}
         </button>
@@ -71,3 +82,4 @@ export default function Register({ onRegister }) {
     </section>
   );
 }
+
