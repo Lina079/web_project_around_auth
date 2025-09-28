@@ -183,11 +183,17 @@ export default function App() {
         {/* Rutas públicas */}
         <Route
           path="/signin"
-          element={<Login onLogin={handleLogin} />}
+          element={
+            isLoggedIn ? <Navigate to="/" replace />
+            : <Login onLogin={handleLogin} />
+          }
         />
         <Route
           path="/signup"
-          element={<Register onRegister={handleRegister} />}
+          element={
+            isLoggedIn ? <Navigate to="/" replace />
+            : <Register onRegister={handleRegister} />
+          }
         />
         {/* Rutas protegidas */}
         <Route
