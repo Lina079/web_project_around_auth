@@ -1,4 +1,4 @@
-const BASE_URL = 'https://se-register-api.en.tripleten-services.com/v1';
+const BASE_URL = import.meta.env.VITE_AUTH_BASE || 'https://se-register-api.en.tripleten-services.com/v1';
 
 const jsonHeaders = {
   'Content-Type': 'application/json',
