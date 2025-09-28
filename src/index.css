@@ -6,6 +6,7 @@
 @import url('/blocks/image-popup.css');
 @import url('/blocks/page.css');
 @import url('/blocks/profile.css');
+@import url('/blocks/auth.css');
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
