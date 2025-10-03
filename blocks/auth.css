@@ -1,7 +1,8 @@
 .auth {
-  min-height: calc(100dvh - 120px);
+  width: 100%;
   display: grid;
   place-items: start center;
+  align-items: center;
   padding: 40px 16px 64px;
   color: #fff;
 }
@@ -9,7 +10,7 @@
 .auth__title {
   margin: 56px 0 40px;
   text-align: center;
-  font-size: 34px;
+  font-size: 24px;
   line-height: 1.2;
   font-weight: 700;
 }
@@ -64,7 +65,7 @@
   width: 100%;
   max-width: 358px;
   height: 50px;
-  margin-top: 8px;
+  margin-top: 150px;
   border: none;
   border-radius: 2px;
   background: #fff;
@@ -86,7 +87,7 @@
   margin-top: 16px;
   text-align: center;
   font-size: 14px;
-  color: rgba(255,255,255,0.8);
+  color: #fff;
 }
 
 .auth__hint a {

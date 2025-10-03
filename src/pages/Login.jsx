@@ -50,11 +50,11 @@ export default function Login({ onLogin }) {
 
       <form className="auth__form" onSubmit={handleSubmit} noValidate>
         <label className="auth__field">
-          <span>Email</span>
+          <span></span>
           <input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder="Correo Electrónico"
             value={form.email}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -64,11 +64,11 @@ export default function Login({ onLogin }) {
         </label>
 
         <label className="auth__field">
-          <span>Contraseña</span>
+          <span></span>
           <input
             type="password"
             name="password"
-            placeholder="6 caracteres mín. letras y números."
+            placeholder="Contraseña"
             value={form.password}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -94,12 +94,12 @@ export default function Login({ onLogin }) {
           type="submit"
           disabled={!canSubmit}
           >
-          {loading ? 'Ingresando...' : 'Iniciar sesión'}
+          {loading ? 'Ingresando...' : 'Inicia sesión'}
         </button>
       </form>
 
       <p className="auth__hint">
-        ¿No tienes una cuenta? <Link to="/signup">Regístrate</Link>
+        ¿Aún no eres miembro? <Link to="/signup">Regístrate aquí</Link>
       </p>
     </section>
   );

@@ -44,14 +44,15 @@ export default function Register({ onRegister }) {
 
   return (
     <section className="auth">
-      <h1 className="auth__title">Crear una Cuenta</h1>
+      <h1 className="auth__title">Regístrate</h1>
 
       <form className="auth__form" onSubmit={handleSubmit} noValidate>
         <label className="auth__field">
-          <span>Email</span>
+          <span></span>
           <input
             type="email"
             name="email"
+            placeholder="Correo Electrónico"
             value={form.email}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -61,11 +62,11 @@ export default function Register({ onRegister }) {
         </label>
 
         <label className="auth__field">
-          <span>Contraseña</span>
+          <span></span>
           <input
             type="password"
             name="password"
-            placeholder="6 caracteres mínimo, letras y números."
+            placeholder="Contraseña"
             value={form.password}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -91,12 +92,12 @@ export default function Register({ onRegister }) {
           type="submit"
           disabled={!canSubmit}
         >
-          {loading ? 'Creando...' : 'Registrarme'}
+          {loading ? 'Creando...' : 'Regístrate'}
         </button>
       </form>
 
       <p className="auth__hint">
-        ¿Ya tienes una cuenta? <Link to="/signin">Inicia sesión</Link>
+        ¿Ya eres miembro? <Link to="/signin">Inicia sesión aquí</Link>
       </p>
     </section>
   );
