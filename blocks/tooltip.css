@@ -1,0 +1,142 @@
+ .tooltip {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+}
+
+.tooltip__card {
+  width: min(430px, 100%);
+  background: #fff;
+  color: #111;
+  border-radius: 10px;
+  box-shadow: 0px 10px 30px rgba (0, 0, 0, 0.35);
+  padding: 32px 36px 36px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.tooltip__icon {
+  width: 430px;
+  height: 330px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin: 8px auto 24px;
+}
+
+.tooltip__iconWrap--error {
+  border-color: #E54848;
+}
+
+.tooltip__icon {
+  width: 120px;
+  height: 120px;
+  display: block;
+}
+
+.tooltip__title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 1.2;
+  text-align: center;
+  margin: 0 0 12px;
+}
+
+.tooltip__text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+  margin: 0 0 8px;
+  color: #111;
+}
+
+.tooltip__close {
+  position: absolute;
+  top: -50px;
+  right: -60px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color:#fff;
+  font-size: 32px;
+  line-height: 1;
+  z-index: 10;
+}
+
+.tooltip__close:hover {
+  opacity: .85;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+@media (max-width: 520px) {
+
+  .tooltip {
+    align-items: start;
+    justify-content: center;
+    padding-top: 12vh;
+  }
+
+  .tooltip__card {
+    width: 280px;
+    height: 308px;
+    padding: 24px 20px 20px;
+  }
+
+  .tooltip__icon {
+    width: 110px;
+    height: 110px;
+  }
+  .tooltip__icon {
+    width: 56px;
+    height: 56px;
+  }
+  .tooltip__title {
+    font-size: 20px;
+  }
+  .tooltip__close {
+    top: -55px;
+    right: 90px;
+  }
+  .header.is-open .header__line {
+    display: none;
+  }
+  .header__mobileBody {
+    padding-top: clamp(40px, env(safe-area-inset-top, 0px) + 16px, 32px);
+  }
+
+  .header__email--mobile {
+    margin: 0 0 8px
+  }
+  .header__logout--mobile {
+    margin: 0 0 16px;
+  }
+
+  .header__mobileBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 40px 16px;
+
+    border-top: 1px solid rgba(84, 84, 84, 0.7);
+    border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+  }
+
+  .header__line--mobile {
+    display: none;
+  }
+
+
+}
+

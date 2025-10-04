@@ -33,10 +33,22 @@ async _handleResponse(res) {
     payload = {};
   }
   if (!res.ok) {
-    const message =
+    const serverMsg =
     (payload && typeof payload === 'object' && payload.message) ||
     (typeof payload === 'string' && payload) ||
-    `Error: ${res.status}`;
+    '';
+
+    const FRIENDLY ={
+      400: 'Datos inválidos. Revisa los campos.',
+      401: 'No autorizado. Inicia sesión de nuevo.',
+      403: 'No tienes permisos para realizar esta acción.',
+      404: 'Recurso no encontrado.',
+      409: 'Conflicto con la petición (p. ej., ya existe).',
+      500: 'Error en el servidor. Intenta más tarde.',
+    };
+
+    const message = FRIENDLY[res.status] || serverMsg || 'Ocurrió un error. Intenta de nuevo.';
+
     console.error('API error:', res.status, res.url, payload);
     throw new Error(message);
   }

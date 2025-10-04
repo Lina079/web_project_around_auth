@@ -26,12 +26,15 @@ export default function App() {
   const navigate = useNavigate();
 
 
+
  // Estado de la app
   const [currentUser, setCurrentUser] = useState({});
   const [authEmail, setAuthEmail] = useState('');
   const [cards, setCards] = useState([]);
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
   const [ tooltip, setTooltip ] = useState({ open: false, ok: false, message: '' });
+
+
 
   // Validar token al cargar la app
   useEffect(() => {
@@ -49,7 +52,7 @@ export default function App() {
         authToken.clear();
         setIsLoggedIn(false);
       });
-  }, []);
+  }, [navigate]);
 
   // Cargar datos iniciales SOLO si hay sesión iniciada
 
@@ -79,6 +82,7 @@ export default function App() {
       });
     }
   }
+
   async function handleLogin({ email, password }) {
     try {
     const { token} = await loginUser({ email, password });

@@ -7,19 +7,30 @@ const jsonHeaders = {
 async function handleResponse(response) {
   // error
   if (!response.ok) {
-    let message = `HTTP ${response.status}`;
+    let detail = '';
 
     try {
       const data = await response.json();
-      if (data?.message) message = data.message;
+      if (data?.message) detail = data.message;
     } catch {
       try {
         const text = await response.text();
-        if (text) message = text;
+        if (text) detail = text;
       } catch {}
     }
+    const FRIENDLY = {
+      400: 'Datos inválidos. Revisa los campos.',
+      401: 'Por favor, inténtalo de nuevo.',
+      403: 'No tienes permisos para realizar esta acción.',
+      404: 'Recurso no encontrado.',
+      409: 'Conflicto con la petición (p. ej., ya existe).',
+      500: 'Error en el servidor. Intenta más tarde.',
+    };
+
+    const message = FRIENDLY[response.status] || detail || 'Ocurrió un error. Intenta de nuevo.';
     throw new Error(message);
   }
+
   // exito
   try {
     return await response.json();
