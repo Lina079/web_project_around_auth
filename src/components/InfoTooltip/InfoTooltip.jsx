@@ -1,16 +1,25 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import okIcon from '../../../images/Union-ok.svg';
 import errorIcon from '../../../images/Union.svg';
 
 export default function InfoTooltip({ isOpen, ok, message = '', onClose }) {
-  if (!isOpen) return null;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
   //cierre con ESC
   useEffect(() => {
+    if (!isOpen) return;
     const onEsc = (e) => e.key === 'Escape' && onClose?.();
-    window.addEventListener('keydown', onEsc);
+    document.addEventListener('keydown', onEsc);
     return () => document.removeEventListener('keydown', onEsc);
-  }, [onClose]);
+  }, [isOpen, onClose]);
+
+  if (!isOpen || !mounted) return null;
 
   const title = ok
     ? '¡Correcto! Ya estás registrado.'
@@ -21,7 +30,7 @@ export default function InfoTooltip({ isOpen, ok, message = '', onClose }) {
     : 'Por favor, inténtalo de nuevo.'
   );
 
-  return (
+  return createPortal (
     <section
       className="tooltip"
       onClick={onClose}>
@@ -58,6 +67,7 @@ export default function InfoTooltip({ isOpen, ok, message = '', onClose }) {
           </p>
       </div>
     </section>
+    , document.body
   );
 }
 

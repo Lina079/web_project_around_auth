@@ -1,5 +1,5 @@
 import { useState, useEffect} from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { useLocation, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -9,6 +9,7 @@ import Login from '../../pages/Login';
 import Register from '../../pages/Register';
 
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute.jsx';
 import api from '../../utils/api';
 import { register as registerUser, login as loginUser, checkToken, token as authToken } from '../../utils/auth.js';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
@@ -17,15 +18,9 @@ import InfoTooltip from '../InfoTooltip/InfoTooltip';
 import './App.css';
 import '../../index.css';
 
-// Ruta protegida
-function ProtectedRoute({ isLoggedIn, children }) {
-  return isLoggedIn ? children : <Navigate to="/signin" replace />;
-}
-
 export default function App() {
   const navigate = useNavigate();
-
-
+  const location = useLocation();
 
  // Estado de la app
   const [currentUser, setCurrentUser] = useState({});
@@ -33,8 +28,6 @@ export default function App() {
   const [cards, setCards] = useState([]);
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
   const [ tooltip, setTooltip ] = useState({ open: false, ok: false, message: '' });
-
-
 
   // Validar token al cargar la app
   useEffect(() => {
@@ -92,7 +85,9 @@ export default function App() {
     const { data } = await checkToken(token);
     setAuthEmail(data.email);
     setCurrentUser((prev) => ({ ...prev, email: data.email }));
-    navigate('/', { replace: true });
+
+    const from = location.state?.from?.pathname || '/';
+    navigate(from, { replace: true });
   } catch (error) {
     setTooltip({
       open: true,
