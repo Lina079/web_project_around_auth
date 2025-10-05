@@ -2,6 +2,9 @@
 
 **Demo:** https://lina079.github.io/web_project_around_auth/  
 **Stack:** React · Vite · REACT ROUTERS · CSS · Context API · Fetch/REST · ESLint · GitHub Pages 
+ **Nota sobre infraestructura**
+  Este proyecto fue creado con Vite en lugar de CRA.
+  Los scripts y la estructura son equivalentes para el alcance del sprint.
 
 ## 🧭 Resumen 
 Aplicación tipo “galería social” donde el usuario:
@@ -12,7 +15,7 @@ Aplicación tipo “galería social” donde el usuario:
 - **Login/Register** de sesión (JWT), rutas protegidas y redirecciones.
 
 **Qué demuestra este proyecto**  
-Integración con **REST API** (GET/POST/PUT/PATCH/DELETE), gestión de estado con **hooks** y **Context**, componentes reutilizables y deploy con **Vite + GitHub Pages**.
+Integración con **REST API** (GET/POST/PUT/PATCH/DELETE), gestión de estado con **hooks** y **Context**, componentes reutilizables, autenticación con JWT, deploy con **Vite + GitHub Pages**.
 
 ---
 
@@ -20,24 +23,23 @@ Integración con **REST API** (GET/POST/PUT/PATCH/DELETE), gestión de estado co
 - **Perfil:** edición de datos y avatar.
 - **Tarjetas (cards):** listar, crear, eliminar, like/unlike.
 - **Autenticación:** 
-  -Rutas públicas: /signin(login), /signout (registro)
+  -Rutas públicas: /signin(login), /signup (registro)
   -Rutas protegidas: / (galería) -- solo accesible si hay   sesión.
-  -ProtectedRoute (en App.jsx) redirige a /signin sin no hay token.
+  -ProtectedRoute (v6) redirige a /signin sin no hay token.
   -Redirección automatica a / si ya estas logueado e intentas visitar /signin o /signout.
+  -InfoTooltip: modal de feedback tras registro/login (éxito/error)
   -Validación de contraseña: alfanumérica y mínimo 6 caracteres.
-  -InfoTooltip: modal de feedback tras registro/login.
 - **Modales accesibles:** apertura/cierre, focus manejado, validación básica.
 - **Validación de formularios** con feedback visual.
 - **Consumo de API** con manejo de errores y sincronización de estado.
 - **Responsive** (mobile-first).
 
-> **API de práctica** (endpoints tipo `me`, `cards`, etc. de TripleTen).
 
 ---
 
 ## 🧱 Arquitectura & decisiones
 - **React + Vite**: DX rápida y build eficiente. 
-- **React Router:** rutas públicas/protegidas. 
+- **React Router v6:** rutas públicas/protegidas con <Routes/> y <Navigate/>. 
 - **Context API** para compartir el usuario actual.  
 - **Componentes desacoplados** (`Card`, `Popup`, `EditProfile`, `ConfirmDelete`, etc.). 
 - **Capa de API separada:**
@@ -134,11 +136,11 @@ web_project_around_auth/
 
 ----
 
-🔌 Integraciones y endpoints
+## 🔌 Integraciones y endpoints
 
 Autenticación (temporal)
 
-Base: https://se-register-api.en.tripleten-service.com/v1
+Base: https://se-register-api.en.tripleten-services.com/v1
 - POST /signup -> crea usuario { data: { email, _id } }
 - POST /signin -> devuelve { token }
 - GET /users/me -> valida token y devuelve { data: { email, _id } }
@@ -213,6 +215,10 @@ Si no estás logueado e intentas /, se redirige a /signin.
 - Observabilidad con DevTools de red y logs centrados para depurar respuestas 4xx/5xx.
 - Higiene de proyecto: Dependabot activado, npm audit integrado, ESLint/Prettier, .env.example, README documentado.
 - Trabajo con dos backends distintos (auth y core) y coordinación del estado global con Context.
+
+**Notas de compatibilidad**
+- Este repositorio fue migrado desde proyectos previos ("Around") y adaptado a Vite.
+- Algunas integraciones usan temporalmente el backend de TripleTen para registro/login; el resto de endpoints "Around" funcionan con autorización via Bearer <token>. En el siguiente sprint se unificará todo en el backend de Express propio.
 
 
 ### 👩‍💻 Autora
