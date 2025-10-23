@@ -96,6 +96,7 @@ export default function App() {
     });
   }
 }
+// Cerrar sesión
 
   function handleLogout() {
     authToken.clear();
